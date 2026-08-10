@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useRef, useState, type ChangeEvent, type DragEvent, type ReactNode } from "react";
 import {
@@ -33,10 +33,10 @@ interface StageStep {
 }
 
 const STAGE_STEPS: StageStep[] = [
-  { key: "uploading", label: "Ø±ÙØ¹ Ø§Ù„Ù…Ù„Ù Ø§Ù„ØµÙˆØªÙŠ", icon: <UploadCloud className="h-3.5 w-3.5" /> },
-  { key: "transcribing", label: "ØªÙØ±ÙŠØº Ø§Ù„ØµÙˆØª (Whisper)", icon: <Mic className="h-3.5 w-3.5" /> },
-  { key: "diacritizing", label: "Ø§Ù„ØªØ´ÙƒÙŠÙ„ ÙˆØ§Ù„ØªØ­Ù‚Ù‚ (Claude)", icon: <Sparkles className="h-3.5 w-3.5" /> },
-  { key: "finalizing", label: "Ø¥Ù†Ù‡Ø§Ø¡ Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©", icon: <CheckCircle2 className="h-3.5 w-3.5" /> },
+  { key: "uploading", label: "رفع الملف الصوتي", icon: <UploadCloud className="h-3.5 w-3.5" /> },
+  { key: "transcribing", label: "تفريغ الصوت (Whisper)", icon: <Mic className="h-3.5 w-3.5" /> },
+  { key: "diacritizing", label: "التشكيل والتحقق (Claude)", icon: <Sparkles className="h-3.5 w-3.5" /> },
+  { key: "finalizing", label: "إنهاء المعالجة", icon: <CheckCircle2 className="h-3.5 w-3.5" /> },
 ];
 
 const STAGE_ORDER: PipelineStage[] = ["idle", "uploading", "transcribing", "diacritizing", "finalizing", "done", "error"];
@@ -55,12 +55,12 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
     const hasValidExtension = ACCEPTED_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
 
     if (!hasValidExtension) {
-      setValidationError("ØµÙŠØºØ© Ø§Ù„Ù…Ù„Ù ØºÙŠØ± Ù…Ø¯Ø¹ÙˆÙ…Ø©ØŒ Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø§Ø³ØªØ®Ø¯Ø§Ù… MP3 Ø£Ùˆ WAV Ø£Ùˆ M4A Ø£Ùˆ ØµÙŠØºØ© ØµÙˆØªÙŠØ© Ù…Ø´Ø§Ø¨Ù‡Ø©.");
+      setValidationError("صيغة الملف غير مدعومة، الرجاء استخدام MP3 أو WAV أو M4A أو صيغة صوتية مشابهة.");
       return;
     }
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      setValidationError("Ø­Ø¬Ù… Ø§Ù„Ù…Ù„Ù ÙŠØªØ¬Ø§ÙˆØ² 100 Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØªØŒ Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¶ØºØ· Ø§Ù„Ù…Ù„Ù Ø£Ùˆ ØªÙ‚Ø³ÙŠÙ…Ù‡ Ù‚Ø¨Ù„ Ø§Ù„Ø±ÙØ¹.");
+      setValidationError("حجم الملف يتجاوز 100 ميجابايت، الرجاء ضغط الملف أو تقسيمه قبل الرفع.");
       return;
     }
 
@@ -124,9 +124,9 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
     <section className="rounded-3xl border border-emerald-800/40 bg-emerald-950/20 p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-extrabold text-emerald-50 sm:text-xl">Ø±ÙØ¹ Ø§Ù„ØªØ³Ø¬ÙŠÙ„ Ø§Ù„ØµÙˆØªÙŠ</h2>
+          <h2 className="text-lg font-extrabold text-emerald-50 sm:text-xl">رفع التسجيل الصوتي</h2>
           <p className="mt-1 text-sm text-emerald-300/70">
-            ÙŠØ¯Ø¹Ù… Ø§Ù„Ù†Ø¸Ø§Ù… Ø§Ù„Ù…Ù„ÙØ§Øª Ø§Ù„Ø·ÙˆÙŠÙ„Ø© Ø§Ù„ØªÙŠ ØªØªØ¬Ø§ÙˆØ² Ø§Ù„Ø³Ø§Ø¹Ø© Ø§Ù„ÙˆØ§Ø­Ø¯Ø©ØŒ ÙˆØ­ØªÙ‰ 100 Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØª Ø£Ùˆ Ø£ÙƒØ«Ø±
+            يدعم النظام الملفات الطويلة التي تتجاوز الساعة الواحدة، وحتى 100 ميجابايت أو أكثر
           </p>
         </div>
         {selectedFile || stage !== "idle" ? (
@@ -136,7 +136,7 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
             className="flex items-center gap-1.5 rounded-xl border border-emerald-700/50 px-3 py-2 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-900/40"
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            Ø¨Ø¯Ø¡ Ù…Ù† Ø¬Ø¯ÙŠØ¯
+            بدء من جديد
           </button>
         ) : null}
       </div>
@@ -172,8 +172,8 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
           </div>
         ) : (
           <div>
-            <p className="font-bold text-emerald-50">Ø§Ø³Ø­Ø¨ ÙˆØ£ÙÙ„Øª Ø§Ù„Ù…Ù„Ù Ø§Ù„ØµÙˆØªÙŠ Ù‡Ù†Ø§ØŒ Ø£Ùˆ Ø§Ø¶ØºØ· Ù„Ù„Ø§Ø®ØªÙŠØ§Ø±</p>
-            <p className="mt-1 text-xs text-emerald-400/70">MP3 Â· WAV Â· M4A â€” Ø­ØªÙ‰ 100 Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØª ÙˆØ£ÙƒØ«Ø± Ù…Ù† Ø³Ø§Ø¹Ø© ØªØ³Ø¬ÙŠÙ„</p>
+            <p className="font-bold text-emerald-50">اسحب وأفلت الملف الصوتي هنا، أو اضغط للاختيار</p>
+            <p className="mt-1 text-xs text-emerald-400/70">MP3 · WAV · M4A — حتى 100 ميجابايت وأكثر من ساعة تسجيل</p>
           </div>
         )}
       </div>
@@ -193,7 +193,7 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
           className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-emerald-500 via-emerald-600 to-emerald-700 px-6 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-emerald-900/40 transition hover:brightness-110 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Sparkles className="h-4 w-4" />
-          Ø¨Ø¯Ø¡ Ø§Ù„ØªÙØ±ÙŠØº ÙˆØ§Ù„ØªØ´ÙƒÙŠÙ„ Ø§Ù„ØªØ§Ù…
+          بدء التفريغ والتشكيل التام
         </button>
       ) : null}
 
@@ -247,4 +247,3 @@ export function AudioUploader({ stage, progress, disabled, errorMessage, onSubmi
     </section>
   );
 }
-
