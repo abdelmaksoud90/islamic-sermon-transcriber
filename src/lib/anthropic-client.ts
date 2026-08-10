@@ -1,8 +1,8 @@
-import Anthropic from "@anthropic-ai/sdk";
+import openai from "@openai-ai/sdk";
 
-let cachedClient: Anthropic | null = null;
+let cachedClient: openai | null = null;
 
-export function getAnthropicClient(): Anthropic {
+export function getopenaiClient(): openai {
   if (cachedClient) {
     return cachedClient;
   }
@@ -14,6 +14,6 @@ export function getAnthropicClient(): Anthropic {
     );
   }
 
-  cachedClient = new Anthropic({ apiKey, timeout: 280 * 1000, maxRetries: 2 });
+  cachedClient = new openai({ apiKey, timeout: 280 * 1000, maxRetries: 2 });
   return cachedClient;
 }

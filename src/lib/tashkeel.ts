@@ -1,6 +1,6 @@
 import { getOpenAIClient } from "./openai-client";
-import Anthropic from "@anthropic-ai/sdk";
-import { getAnthropicClient } from "@/lib/anthropic-client";
+import openai from "@openai-ai/sdk";
+import { getopenaiClient } from "@/lib/openai-client";
 import { mapWithConcurrency } from "@/lib/concurrency";
 import type { DetectedQuote, SermonAnalysis } from "@/lib/types";
 
@@ -39,7 +39,7 @@ const OVERVIEW_SYSTEM_PROMPT = `أنت محرر شرعي متخصص في تحر�
 
 أخرج النتيجة حصريًا عبر استدعاء الأداة submit_overview، ولا تكتب أي نص خارج نطاق الأداة إطلاقًا.`;
 
-const segmentTool: Anthropic.Tool = {
+const segmentTool: openai.Tool = {
   name: "submit_segment_analysis",
   description:
     "تسليم النص الكامل لهذا الجزء بعد التشكيل التام وتصحيح الآيات والأحاديث، مع قائمة الاستشهادات القرآنية والحديثية المكتشفة فيه.",
@@ -68,7 +68,7 @@ const segmentTool: Anthropic.Tool = {
   },
 };
 
-const overviewTool: Anthropic.Tool = {
+const overviewTool: openai.Tool = {
   name: "submit_overview",
   description: "تسليم عنوان جذاب وملخص موجز للخطبة أو المحاضرة الدينية.",
   input_schema: {
@@ -127,9 +127,9 @@ function normalizeQuotes(quotes: RawQuote[] | undefined): DetectedQuote[] {
     }));
 }
 
-function extractToolInput<T>(response: Anthropic.Message, toolName: string): T {
+function extractToolInput<T>(response: openai.Message, toolName: string): T {
   const toolBlock = response.content.find(
-    (block): block is Anthropic.ToolUseBlock => block.type === "tool_use" && block.name === toolName,
+    (block): block is openai.ToolUseBlock => block.type === "tool_use" && block.name === toolName,
   );
 
   if (!toolBlock) {
@@ -144,9 +144,9 @@ async function diacritizeSegment(
   segmentIndex: number,
   totalSegments: number,
 ): Promise<SegmentResult> {
-  const anthropic = getAnthropicClient();
+  const openai = getopenaiClient();
 
-  const response = await anthropic.messages.create({
+  const response = await openai.messages.create({
     model: CLAUDE_MODEL,
     max_tokens: 8192,
     system: DIACRITIZATION_SYSTEM_PROMPT,
@@ -172,14 +172,14 @@ async function diacritizeSegment(
 }
 
 async function generateOverview(rawText: string): Promise<{ sermon_title: string; summary: string }> {
-  const anthropic = getAnthropicClient();
+  const openai = getopenaiClient();
 
   const excerpt =
     rawText.length > OVERVIEW_EXCERPT_LIMIT
       ? `${rawText.slice(0, OVERVIEW_EXCERPT_LIMIT)}\n...\n[تم اقتطاع باقي النص لأغراض التلخيص فقط]`
       : rawText;
 
-  const response = await anthropic.messages.create({
+  const response = await openai.messages.create({
     model: CLAUDE_MODEL,
     max_tokens: 1024,
     system: OVERVIEW_SYSTEM_PROMPT,
