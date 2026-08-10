@@ -14,6 +14,6 @@ export function getOpenAIClient(): OpenAI {
     );
   }
 
-  cachedClient = new OpenAI({ apiKey, timeout: 280 * 1000, maxRetries: 2 });
+  cachedClient = new OpenAI({ baseURL: "https://api.groq.com/openai/v1",  apiKey, timeout: 280 * 1000, maxRetries: 2 });
   return cachedClient;
 }
