@@ -35,7 +35,7 @@ async function transcribeChunk(chunkPath: string): Promise<string> {
 
   const transcriptionText = await openai.audio.transcriptions.create({
     file: createReadStream(chunkPath),
-    model: "whisper-1",
+    model: "whisper-large-v3",
     language: "ar",
     response_format: "text",
     prompt: WHISPER_PROMPT,
