@@ -3,7 +3,7 @@ import { getAnthropicClient } from "@/lib/anthropic-client";
 import { mapWithConcurrency } from "@/lib/concurrency";
 import type { DetectedQuote, SermonAnalysis } from "@/lib/types";
 
-const CLAUDE_MODEL = "claude-3-5-sonnet-20241022";
+const CLAUDE_MODEL = "llama-3.3-70b-versatile";
 const MAX_SEGMENT_CHARACTERS = 6000;
 const SEGMENT_CONCURRENCY = 3;
 const OVERVIEW_EXCERPT_LIMIT = 12000;

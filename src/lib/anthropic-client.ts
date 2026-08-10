@@ -14,6 +14,6 @@ export function getAnthropicClient(): Anthropic {
     );
   }
 
-  cachedClient = new Anthropic({ apiKey, timeout: 280 * 1000, maxRetries: 2 });
+  cachedClient = new OpenAI({ baseURL: "https://api.groq.com/openai/v1", apiKey: process.env.OPENAI_API_KEY });
   return cachedClient;
 }
