@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-cairo);
+  --font-arabic: var(--font-cairo);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #050b0a;
+}
+
+.islamic-pattern-bg {
+  background-color: #050b0a;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.06), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.08), transparent 50%),
+    repeating-linear-gradient(45deg, rgba(16, 185, 129, 0.035) 0px, rgba(16, 185, 129, 0.035) 1px, transparent 1px, transparent 26px),
+    repeating-linear-gradient(-45deg, rgba(16, 185, 129, 0.035) 0px, rgba(16, 185, 129, 0.035) 1px, transparent 1px, transparent 26px);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(4, 18, 13, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.55);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.45s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.45s ease-in-out;
+}
+
+.animate-toast-in {
+  animation: toast-in 0.3s ease-out;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2.4s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .islamic-pattern-bg {
+    display: none !important;
+  }
+
+  header,
+  footer {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+}
