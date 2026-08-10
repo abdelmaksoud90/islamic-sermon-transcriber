@@ -1,3 +1,4 @@
+import { getOpenAIClient } from "./openai-client";
 import Anthropic from "@anthropic-ai/sdk";
 import { getAnthropicClient } from "@/lib/anthropic-client";
 import { mapWithConcurrency } from "@/lib/concurrency";
