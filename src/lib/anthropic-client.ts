@@ -1,4 +1,3 @@
-import OpenAI from 'openai';
 import Anthropic from "@anthropic-ai/sdk";
 
 let cachedClient: Anthropic | null = null;
@@ -15,6 +14,6 @@ export function getAnthropicClient(): Anthropic {
     );
   }
 
-  cachedClient = new OpenAI({ baseURL: "https://api.groq.com/openai/v1", apiKey: process.env.OPENAI_API_KEY });
+  cachedClient = new Anthropic({ apiKey, timeout: 280 * 1000, maxRetries: 2 });
   return cachedClient;
 }
