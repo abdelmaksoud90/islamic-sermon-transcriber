@@ -24,9 +24,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
-        { error: "مفتاح ANTHROPIC_API_KEY غير مُعرَّف على الخادم. الرجاء إضافته إلى متغيرات البيئة." },
+        { error: "مفتاح OPENAI_API_KEY غير مُعرَّف على الخادم. الرجاء إضافته إلى متغيرات البيئة." },
         { status: 500 },
       );
     }
