@@ -1,4 +1,4 @@
-import { createReadStream, promises as fsp } from "fs";
+﻿import { createReadStream, promises as fsp } from "fs";
 import { getOpenAIClient } from "@/lib/openai-client";
 import { probeAudio, splitAudioIntoChunks } from "@/lib/ffmpeg-config";
 import { mapWithConcurrency } from "@/lib/concurrency";
@@ -11,7 +11,7 @@ const MAX_SEGMENT_SECONDS = 10 * 60;
 const WHISPER_CONCURRENCY = 3;
 
 const WHISPER_PROMPT =
-  "نص خطبة أو محاضرة دينية إسلامية باللغة العربية الفصحى، قد تتضمن آيات قرآنية كريمة وأحاديث نبوية شريفة ومصطلحات شرعية.";
+  "Ù†Øµ Ø®Ø·Ø¨Ø© Ø£Ùˆ Ù…Ø­Ø§Ø¶Ø±Ø© Ø¯ÙŠÙ†ÙŠØ© Ø¥Ø³Ù„Ø§Ù…ÙŠØ© Ø¨Ø§Ù„Ù„ØºØ© Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ø§Ù„ÙØµØ­Ù‰ØŒ Ù‚Ø¯ ØªØªØ¶Ù…Ù† Ø¢ÙŠØ§Øª Ù‚Ø±Ø¢Ù†ÙŠØ© ÙƒØ±ÙŠÙ…Ø© ÙˆØ£Ø­Ø§Ø¯ÙŠØ« Ù†Ø¨ÙˆÙŠØ© Ø´Ø±ÙŠÙØ© ÙˆÙ…ØµØ·Ù„Ø­Ø§Øª Ø´Ø±Ø¹ÙŠØ©.";
 
 export interface TranscribeResult {
   rawText: string;
@@ -29,13 +29,13 @@ async function transcribeChunk(chunkPath: string): Promise<string> {
 
   if (stat.size > WHISPER_MAX_CHUNK_BYTES) {
     throw new Error(
-      "تعذر تقسيم الملف الصوتي إلى أجزاء أصغر من الحد المسموح به لخدمة Whisper (25 ميجابايت لكل جزء).",
+      "ØªØ¹Ø°Ø± ØªÙ‚Ø³ÙŠÙ… Ø§Ù„Ù…Ù„Ù Ø§Ù„ØµÙˆØªÙŠ Ø¥Ù„Ù‰ Ø£Ø¬Ø²Ø§Ø¡ Ø£ØµØºØ± Ù…Ù† Ø§Ù„Ø­Ø¯ Ø§Ù„Ù…Ø³Ù…ÙˆØ­ Ø¨Ù‡ Ù„Ø®Ø¯Ù…Ø© Whisper (25 Ù…ÙŠØ¬Ø§Ø¨Ø§ÙŠØª Ù„ÙƒÙ„ Ø¬Ø²Ø¡).",
     );
   }
 
   const transcriptionText = await openai.audio.transcriptions.create({
     file: createReadStream(chunkPath),
-    model: "whisper-1",
+    model: "whisper-large-v3",
     language: "ar",
     response_format: "text",
     prompt: WHISPER_PROMPT,
@@ -70,7 +70,7 @@ export async function transcribeAudioFile(
       console.error("Audio chunking with ffmpeg failed, falling back to single file", error);
       if (sizeBytes > WHISPER_MAX_CHUNK_BYTES) {
         throw new Error(
-          "تعذّر تقسيم الملف الصوتي الكبير آليًا، وحجمه يتجاوز الحد المسموح به لخدمة Whisper. الرجاء تحويل الملف إلى صيغة MP3 وإعادة رفعه.",
+          "ØªØ¹Ø°Ù‘Ø± ØªÙ‚Ø³ÙŠÙ… Ø§Ù„Ù…Ù„Ù Ø§Ù„ØµÙˆØªÙŠ Ø§Ù„ÙƒØ¨ÙŠØ± Ø¢Ù„ÙŠÙ‹Ø§ØŒ ÙˆØ­Ø¬Ù…Ù‡ ÙŠØªØ¬Ø§ÙˆØ² Ø§Ù„Ø­Ø¯ Ø§Ù„Ù…Ø³Ù…ÙˆØ­ Ø¨Ù‡ Ù„Ø®Ø¯Ù…Ø© Whisper. Ø§Ù„Ø±Ø¬Ø§Ø¡ ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ù…Ù„Ù Ø¥Ù„Ù‰ ØµÙŠØºØ© MP3 ÙˆØ¥Ø¹Ø§Ø¯Ø© Ø±ÙØ¹Ù‡.",
         );
       }
     }
@@ -91,3 +91,4 @@ export async function transcribeAudioFile(
     durationSeconds,
   };
 }
+
